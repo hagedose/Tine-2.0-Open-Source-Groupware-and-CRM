@@ -27,6 +27,7 @@ class Calendar_Convert_Event_VCalendar_Factory
     const CLIENT_TINE        = 'tine';
     const CLIENT_DAVDROID    = 'davdroid';
 	const CLIENT_CALDAVSYNCHRONIZER = 'caldavsynchronizer';
+	const CLIENT_FANTASTICAL = 'fantastical';
     
     /**
      * cache parsed user-agent strings
@@ -73,6 +74,9 @@ class Calendar_Convert_Event_VCalendar_Factory
 
             case Calendar_Convert_Event_VCalendar_Factory::CLIENT_CALDAVSYNCHRONIZER:
                 return new Calendar_Convert_Event_VCalendar_CalDAVSynchronizer($_version);
+
+            case Calendar_Convert_Event_VCalendar_Factory::CLIENT_FANTASTICAL:
+                return new Calendar_Convert_Event_VCalendar_Fantastical($_version);
 
             case Calendar_Convert_Event_VCalendar_Factory::CLIENT_TINE:
                 return new Calendar_Convert_Event_VCalendar_Tine($_version);
@@ -134,6 +138,11 @@ class Calendar_Convert_Event_VCalendar_Factory
         // CalDAVSynchronizer
         } elseif (preg_match(Calendar_Convert_Event_VCalendar_CalDAVSynchronizer::HEADER_MATCH, $_userAgent, $matches)) {
             $backend = Calendar_Convert_Event_VCalendar_Factory::CLIENT_CALDAVSYNCHRONIZER;
+            $version = $matches['version'];
+
+        // Fantastical
+        } elseif (preg_match(Calendar_Convert_Event_VCalendar_Fantastical::HEADER_MATCH, $_userAgent, $matches)) {
+            $backend = Calendar_Convert_Event_VCalendar_Factory::CLIENT_FANTASTICAL;
             $version = $matches['version'];
 			
         } else {
